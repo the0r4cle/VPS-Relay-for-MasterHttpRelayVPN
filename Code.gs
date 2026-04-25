@@ -13,9 +13,9 @@
  *   5. Copy the Deployment ID into MasterHttpRelayVPN config.json
  */
 
-const AUTH_KEY = "CHANGE_ME_TO_A_STRONG_SECRET";   // کلید بین کلاینت و اپس اسکریپت
-const VPS_URL  = "http://YOUR_VPS_IP:8080/relay";   // آدرس VPS
-const VPS_KEY  = "CHANGE_ME_TO_A_STRONG_SECRET";   // کلید بین اپس اسکریپت و VPS
+const AUTH_KEY = "CHANGE_ME_TO_A_STRONG_SECRET";   // key between client and apps script
+const VPS_URL  = "http://YOUR_VPS_IP:8080/relay";   // vps ip address
+const VPS_KEY  = "CHANGE_ME_TO_A_STRONG_SECRET";   // key between apps script and vps
 
 const SKIP_HEADERS = {
   host: 1, connection: 1, "content-length": 1,
@@ -56,7 +56,6 @@ function _doSingle(req) {
   return _json(JSON.parse(resp.getContentText()));
 }
 
-// ── batch — کل batch یکجا به VPS، VPS موازی پردازش می‌کنه ──────────────────
 
 function _doBatch(items) {
   var valid = [];
