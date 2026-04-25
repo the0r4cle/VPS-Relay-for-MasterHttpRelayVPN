@@ -18,16 +18,6 @@ VPS خارج  ←  IP ثابت
 اینترنت آزاد
 ```
 
-### بهینه‌سازی‌ها
-
-- **Connection Pooling** — اتصال‌های TCP را نگه می‌دارد، TCP handshake مکرر ندارد
-- **Parallel Batch** — درخواست‌های batch به صورت کاملاً موازی پردازش می‌شوند
-- **DNS Caching** — نتایج DNS را ۵ دقیقه کش می‌کند
-- **Response Cache** — پاسخ‌های GET تکراری را ۳۰ ثانیه کش می‌کند
-- **Accept-Encoding** — پاسخ‌های فشرده از مقصد دریافت می‌کند
-- **Waitress WSGI** — سرور production-grade به جای Flask dev server
-
----
 
 ### پیش‌نیازها
 
@@ -51,8 +41,8 @@ pip3 install -r requirements.txt
 #### ۲. کلون پروژه
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/vps-relay.git
-cd vps-relay
+git clone https://github.com/oraclehinter/VPS-Relay-for-MasterHttpRelayVPN.git
+cd VPS-Relay-for-MasterHttpRelayVPN
 pip3 install -r requirements.txt
 ```
 
@@ -89,21 +79,6 @@ tmux ls
 tmux kill-session -t relay
 ```
 
-#### متغیرهای محیطی (اختیاری)
-
-| متغیر | پیش‌فرض | توضیح |
-|-------|---------|-------|
-| `VPS_KEY` | `CHANGE_ME` | **الزامی** — کلید امنیتی |
-| `PORT` | `8080` | پورت سرور |
-| `WORKERS` | `30` | تعداد thread های موازی |
-| `TIMEOUT` | `25` | timeout درخواست‌ها (ثانیه) |
-| `CACHE_MAX` | `500` | حداکثر تعداد آیتم در کش |
-| `CACHE_TTL` | `30` | مدت اعتبار کش (ثانیه) |
-
-مثال با همه متغیرها:
-```bash
-VPS_KEY="password" PORT=8080 WORKERS=50 CACHE_TTL=60 python3 relay.py
-```
 
 #### تست سلامت
 
@@ -216,17 +191,6 @@ VPS  ←  Fixed IP
 Open Internet
 ```
 
-### Optimizations
-
-- **Connection Pooling** — Reuses TCP connections, no repeated handshakes
-- **Parallel Batch** — Batch requests processed fully concurrently
-- **DNS Caching** — Caches DNS results for 5 minutes
-- **Response Cache** — Caches repeated GET responses for 30 seconds
-- **Accept-Encoding** — Requests compressed responses from destinations
-- **Waitress WSGI** — Production-grade server instead of Flask dev server
-
----
-
 ### Prerequisites
 
 - A VPS outside Iran (Ubuntu/Debian)
@@ -248,8 +212,8 @@ sudo apt install -y python3 python3-pip tmux git
 #### 2. Clone and install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/vps-relay.git
-cd vps-relay
+git clone https://github.com/oraclehinter/VPS-Relay-for-MasterHttpRelayVPN.git
+cd VPS-Relay-for-MasterHttpRelayVPN
 pip3 install -r requirements.txt
 ```
 
@@ -284,22 +248,6 @@ tmux ls
 
 # Kill relay
 tmux kill-session -t relay
-```
-
-#### Environment variables (optional)
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `VPS_KEY` | `CHANGE_ME` | **Required** — Security key |
-| `PORT` | `8080` | Server port |
-| `WORKERS` | `30` | Parallel thread count |
-| `TIMEOUT` | `25` | Request timeout (seconds) |
-| `CACHE_MAX` | `500` | Max cache items |
-| `CACHE_TTL` | `30` | Cache TTL (seconds) |
-
-Example with all variables:
-```bash
-VPS_KEY="password" PORT=8080 WORKERS=50 CACHE_TTL=60 python3 relay.py
 ```
 
 #### Health check
