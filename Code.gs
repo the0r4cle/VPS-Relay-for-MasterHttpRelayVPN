@@ -23,8 +23,6 @@ const SKIP_HEADERS = {
   "proxy-authorization": 1, "priority": 1, te: 1,
 };
 
-// ── entry point ──────────────────────────────────────────────────────────────
-
 function doPost(e) {
   try {
     var req = JSON.parse(e.postData.contents);
@@ -36,77 +34,80 @@ function doPost(e) {
   }
 }
 
-// ── single ───────────────────────────────────────────────────────────────────
 
 function _doSingle(req) {
   if (!_validUrl(req.u)) return _json({ e: "bad url" });
+
   var resp = UrlFetchApp.fetch(VPS_URL, {
     method: "post",
     contentType: "application/json",
     payload: JSON.stringify({
       vk: VPS_KEY,
-      m: req.m || "GET", u: req.u,
-      h: _filterHeaders(req.h),
-      b: req.b || "", ct: req.ct || "",
-      r: req.r !== false,
+      m:  req.m  || "GET",
+      u:  req.u,
+      h:  _filterHeaders(req.h),
+      b:  req.b  || "",
+      ct: req.ct || "",
+      r:  req.r !== false,
     }),
     muteHttpExceptions: true,
     validateHttpsCertificates: true,
   });
+
   return _json(JSON.parse(resp.getContentText()));
 }
 
-
 function _doBatch(items) {
-  var valid = [];
-  var errorMap = {};
+  var fetchArgs = [];
+  var errorMap  = {};
 
   for (var i = 0; i < items.length; i++) {
-    if (!_validUrl(items[i].u)) { errorMap[i] = "bad url"; continue; }
-    valid.push({ _i: i, item: items[i] });
-  }
-
-  if (valid.length === 0) {
-    var out = [];
-    for (var i = 0; i < items.length; i++) out.push({ e: errorMap[i] || "bad url" });
-    return _json({ q: out });
-  }
-
-  // fetchAll — همه موازی از اپس اسکریپت به VPS
-  var fetchArgs = valid.map(function(v) {
-    return {
+    var item = items[i];
+    if (!_validUrl(item.u)) {
+      errorMap[i] = "bad url";
+      continue;
+    }
+    fetchArgs.push({
+      _i: i,
       url: VPS_URL,
       method: "post",
       contentType: "application/json",
       payload: JSON.stringify({
         vk: VPS_KEY,
-        m: v.item.m || "GET", u: v.item.u,
-        h: _filterHeaders(v.item.h),
-        b: v.item.b || "", ct: v.item.ct || "",
-        r: v.item.r !== false,
+        m:  item.m  || "GET",
+        u:  item.u,
+        h:  _filterHeaders(item.h),
+        b:  item.b  || "",
+        ct: item.ct || "",
+        r:  item.r !== false,
       }),
       muteHttpExceptions: true,
       validateHttpsCertificates: true,
-    };
-  });
-
-  var responses = UrlFetchApp.fetchAll(fetchArgs);
-
-  var results = new Array(items.length);
-  for (var i = 0; i < items.length; i++) {
-    if (errorMap.hasOwnProperty(i)) { results[i] = { e: errorMap[i] }; continue; }
+    });
   }
+
+  var responses = fetchArgs.length > 0
+    ? UrlFetchApp.fetchAll(fetchArgs)
+    : [];
+
+  var results = [];
   var rIdx = 0;
-  for (var vi = 0; vi < valid.length; vi++) {
-    try { results[valid[vi]._i] = JSON.parse(responses[rIdx].getContentText()); }
-    catch (e) { results[valid[vi]._i] = { e: "parse error" }; }
-    rIdx++;
+  for (var i = 0; i < items.length; i++) {
+    if (errorMap.hasOwnProperty(i)) {
+      results.push({ e: errorMap[i] });
+    } else {
+      try {
+        results.push(JSON.parse(responses[rIdx].getContentText()));
+      } catch (err) {
+        results.push({ e: "parse error" });
+      }
+      rIdx++;
+    }
   }
 
   return _json({ q: results });
 }
 
-// ── helpers ──────────────────────────────────────────────────────────────────
 
 function _validUrl(u) {
   return u && typeof u === "string" && /^https?:\/\//i.test(u);
