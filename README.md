@@ -70,7 +70,7 @@ sudo ufw reload
 tmux new -s relay
 
 # داخل tmux — اجرای relay
-VPS_KEY="پسورد_قوی_خودت" python3 relay.py
+VPS_KEY="password" python3 relay.py
 
 # برای detach کردن (بیرون آمدن بدون بستن)
 # کلیدهای Ctrl+B سپس D را بزن
@@ -102,7 +102,7 @@ tmux kill-session -t relay
 
 مثال با همه متغیرها:
 ```bash
-VPS_KEY="پسورد" PORT=8080 WORKERS=50 CACHE_TTL=60 python3 relay.py
+VPS_KEY="password" PORT=8080 WORKERS=50 CACHE_TTL=60 python3 relay.py
 ```
 
 #### تست سلامت
@@ -125,16 +125,16 @@ curl http://IP_VPS:8080/health
 ۱. به [script.google.com](https://script.google.com) برو
 ۲. روی **New project** کلیک کن
 ۳. کد پیش‌فرض را کاملاً پاک کن
-۴. محتوای فایل `apps_script/Code.gs` را paste کن
+۴. محتوای فایل `Code.gs` را paste کن
 
 #### ۲. تنظیم مقادیر
 
 این سه مقدار را در بالای فایل عوض کن:
 
 ```javascript
-const AUTH_KEY = "یک_پسورد_قوی";          // کلید بین کلاینت و اپس اسکریپت
-const VPS_URL  = "http://IP_VPS:8080/relay"; // آدرس VPS خودت
-const VPS_KEY  = "پسورد_قوی_دیگر";        // باید با VPS_KEY در relay.py یکی باشد
+const AUTH_KEY = "CHANGE_ME";
+const VPS_URL  = "http://IP_VPS:8080/relay"; 
+const VPS_KEY  = "CHANGE_ME";
 ```
 
 > **توجه:** `AUTH_KEY` و `VPS_KEY` را متفاوت انتخاب کن.
