@@ -52,7 +52,7 @@ pip3 install -r requirements.txt
 
 ```bash
 git clone https://github.com/the0r4cle/VPS-Relay-for-MasterHttpRelayVPN
-cd vps-relay
+cd VPS-Relay-for-MasterHttpRelayVPN
 pip3 install -r requirements.txt
 ```
 
@@ -156,8 +156,8 @@ const VPS_KEY  = "password2";
 ```json
 {
   "mode": "apps_script",
-  "script_ids": ["DEPLOYMENT_ID_اینجا"],
-  "auth_key": "همان_AUTH_KEY",
+  "script_ids": ["DEPLOYMENT_ID"],
+  "auth_key": "auth_key",
   "listen_host": "127.0.0.1",
   "listen_port": 8085
 }
@@ -249,7 +249,7 @@ sudo apt install -y python3 python3-pip tmux git
 
 ```bash
 git clone https://github.com/the0r4cle/VPS-Relay-for-MasterHttpRelayVPN.git
-cd vps-relay
+cd VPS-Relay-for-MasterHttpRelayVPN
 pip3 install -r requirements.txt
 ```
 
