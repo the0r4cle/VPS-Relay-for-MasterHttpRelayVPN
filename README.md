@@ -51,7 +51,7 @@ pip3 install -r requirements.txt
 #### ۲. کلون پروژه
 
 ```bash
-git clone https://github.com/oraclehinter/VPS-Relay-for-MasterHttpRelayVPN
+git clone https://github.com/the0r4cle/VPS-Relay-for-MasterHttpRelayVPN
 cd vps-relay
 pip3 install -r requirements.txt
 ```
@@ -248,7 +248,7 @@ sudo apt install -y python3 python3-pip tmux git
 #### 2. Clone and install
 
 ```bash
-git clone https://github.com/oraclehinter/VPS-Relay-for-MasterHttpRelayVPN.git
+git clone https://github.com/the0r4cle/VPS-Relay-for-MasterHttpRelayVPN.git
 cd vps-relay
 pip3 install -r requirements.txt
 ```
